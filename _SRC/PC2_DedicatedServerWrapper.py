@@ -31,7 +31,6 @@ elif os.path.basename(sys.argv[0]).endswith('.py'):
         iniFile = 'basic.ini'
 
 
-
 def replaceAll(iniFile, folderCurrent):
 
     rotateFile = os.path.abspath(os.path.join(folderCurrent, '../',
@@ -43,12 +42,12 @@ def replaceAll(iniFile, folderCurrent):
 
     if os.path.isfile(rotateCache):
         os.remove(rotateCache)
-    else:    ## Show an error ##
+    else:    # Show an error #
         print("Error: %s file not found" % rotateCache)
 
     if os.path.isfile(statsCache):
         os.remove(statsCache)
-    else:    ## Show an error ##
+    else:    # Show an error #
         print("Error: %s file not found" % statsCache)
 
     serverFile = os.path.abspath(os.path.join(folderCurrent,
@@ -80,6 +79,8 @@ def replaceAll(iniFile, folderCurrent):
     HeavyFogWithRain = int(parser.get('WEATHERCHANCE', 'HeavyFogWithRain'))
     Hazy = int(parser.get('WEATHERCHANCE', 'Hazy'))
 
+    AuthenticWeather = parser.get('WEATHERCHANCE', 'AuthenticWeather')
+    BugFree = parser.get('WEATHERCHANCE', 'BugFree')
 
     PracticeSlots = parser.get('WEATHERSLOTS', 'Practice')
     QualifySlots = parser.get('WEATHERSLOTS', 'Qualify')
@@ -93,7 +94,7 @@ def replaceAll(iniFile, folderCurrent):
     MaxGrid = parser.get('SETTINGS', 'MaxGrid')
     ServerRestart = int(parser.get('SETTINGS', 'ServerRestart'))
 
-    WeatherList=(('Clear', Clear), ('LightCloud', LightCloud),
+    WeatherList = (('Clear', Clear), ('LightCloud', LightCloud),
                     ('MediumCloud', MediumCloud), ('HeavyCloud', HeavyCloud),
                     ('Overcast', Overcast), ('LightRain', LightRain),
                     ('Rain', Rain), ('Storm', Storm),
@@ -105,20 +106,62 @@ def replaceAll(iniFile, folderCurrent):
 
     weightedChoice = WeightedChoice(WeatherList)
 
-    Practice1 = weightedChoice.next()
-    Practice2 = weightedChoice.next()
-    Practice3 = weightedChoice.next()
-    Practice4 = weightedChoice.next()
+    if (BugFree == "1"):
+        Practice1 = "clear"
+        Practice2 = "clear"
+        Practice3 = "clear"
+        Practice4 = "clear"
 
-    Qualify1 = weightedChoice.next()
-    Qualify2 = weightedChoice.next()
-    Qualify3 = weightedChoice.next()
-    Qualify4 = weightedChoice.next()
+        Qualify1 = "clear"
+        Qualify2 = "clear"
+        Qualify3 = "clear"
+        Qualify4 = "clear"
 
-    Race1 = weightedChoice.next()
-    Race2 = weightedChoice.next()
-    Race3 = weightedChoice.next()
-    Race4 = weightedChoice.next()
+        Race1 = "clear"
+        Race2 = "clear"
+        Race3 = "clear"
+        Race4 = "clear"
+
+        PracticeSlots = "1"
+        QualifySlots = "1"
+        RaceSlots = "1"
+    else:
+        Practice1 = weightedChoice.next()
+        Practice2 = weightedChoice.next()
+        Practice3 = weightedChoice.next()
+        Practice4 = weightedChoice.next()
+
+        Qualify1 = weightedChoice.next()
+        Qualify2 = weightedChoice.next()
+        Qualify3 = weightedChoice.next()
+        Qualify4 = weightedChoice.next()
+
+        Race1 = weightedChoice.next()
+        Race2 = weightedChoice.next()
+        Race3 = weightedChoice.next()
+        Race4 = weightedChoice.next()
+
+        if (AuthenticWeather == "1"):
+
+            if (PracticeSlots == "1"):
+                Qualify1 = Practice1
+            elif (PracticeSlots == "2"):
+                Qualify1 = Practice2
+            elif (PracticeSlots == "3"):
+                Qualify1 = Practice3
+            elif (PracticeSlots == "4"):
+                Qualify1 = Practice4
+
+            if (QualifySlots == "1"):
+                Race1 = Qualify1
+            elif (QualifySlots == "2"):
+                Race1 = Qualify2
+            elif (QualifySlots == "3"):
+                Race1 = Qualify3
+            elif (QualifySlots == "4"):
+                Race1 = Qualify4
+        else:
+            print("AuthenticWeather deactivated")
 
     for line in fileinput.input(rotateFile, inplace=1):
         line = re.sub(r'"PracticeWeatherSlot1" : ".*"',
@@ -135,7 +178,7 @@ def replaceAll(iniFile, folderCurrent):
                         + Practice4 + '"', line)
         line = re.sub(r'"QualifyWeatherSlot1" : ".*"',
                         '"QualifyWeatherSlot1" : "'
-                        + Practice3 + '"', line)
+                        + Qualify1 + '"', line)
         line = re.sub(r'"QualifyWeatherSlot2" : ".*"',
                         '"QualifyWeatherSlot2" : "'
                         + Qualify2 + '"', line)
@@ -148,7 +191,7 @@ def replaceAll(iniFile, folderCurrent):
 
         line = re.sub(r'"RaceWeatherSlot1" : ".*"',
                         '"RaceWeatherSlot1" : "'
-                        + Practice3 + '"', line)
+                        + Race1 + '"', line)
         line = re.sub(r'"RaceWeatherSlot2" : ".*"',
                         '"RaceWeatherSlot2" : "'
                         + Race2 + '"', line)
@@ -170,9 +213,7 @@ def replaceAll(iniFile, folderCurrent):
                         '"RaceWeatherSlots" : '
                         + RaceSlots + ',', line)
 
-
         sys.stdout.write(line)
-
 
     for line in fileinput.input(serverFile, inplace=1):
         line = re.sub(r'name : ".*"',
@@ -190,15 +231,11 @@ def replaceAll(iniFile, folderCurrent):
 
         sys.stdout.write(line)
 
-    if(RaceSettings == 'true'):
+    if(RaceSettings == '1'):
         print('RaceSettings deactivated. Loading the rotate file without change.')
 
-
-
-    if (ServerStart == 'true'):
+    if (ServerStart == '1'):
         startServer(serverExe, serverDir, ServerRestart)
-
-
 
 
 def main(iniFile):
