@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 """
-RandomWeatherForPC2DS 0.7 - by David Maus / www.gef-gaming.de.
+Project Cars 2 / Dedicated Server Wrapper & Weather Randomizer.
 
-Randomize weather slots in dedicated server configuration for Project Cars 2.
+by David Maus/neslane at www.gef-gaming.de
+
+Randomized weather slots server config for Project Cars 2 dedicated server .
 Info at www.gef-gaming.de.
+
 WARNING MESSY CODE! :)
 """
 
@@ -22,26 +25,51 @@ from configparser import ConfigParser
 
 if os.path.basename(sys.argv[0]).endswith('.exe'):
     if sys.argv[1:]:
-        iniFile = sys.argv[1]
+        if ('.ini' in sys.argv[1]):
+            iniFile = sys.argv[1]
+            if sys.argv[2:]:
+                StartParameter = sys.argv[2]
+            else:
+                StartParameter = ""
+        else:
+            iniFile = 'basic.ini'
+            StartParameter = sys.argv[1]
     else:
         iniFile = 'basic.ini'
+        StartParameter = ""
 elif os.path.basename(sys.argv[0]).endswith('.py'):
     if sys.argv[1:]:
-        iniFile = sys.argv[1]
+        if ('.ini' in sys.argv[1]):
+            iniFile = sys.argv[1]
+            if sys.argv[2:]:
+                StartParameter = sys.argv[2]
+            else:
+                StartParameter = ""
+        else:
+            iniFile = 'basic.ini'
+            StartParameter = sys.argv[1]
     else:
         iniFile = 'basic.ini'
+        StartParameter = ""
 
 
-def replaceAll(iniFile, folderCurrent):
+def replaceAll(iniFile, folderCurrent, StartParameter):
 
     rotateFile = os.path.abspath(os.path.join(folderCurrent, '../',
                                  'lua_Config', 'sms_rotate_config.json'))
     rotateCache = os.path.abspath(os.path.join(folderCurrent, '../',
-                                 'lua_Config', 'sms_rotate_data.json'))
+                                  'lua_Config', 'sms_rotate_data.json'))
     statsCache = os.path.abspath(os.path.join(folderCurrent, '../',
                                  'lua_Config', 'sms_stats_data.json'))
     tracksFile = os.path.abspath(os.path.join(folderCurrent,
                                  'help', 'tracks.txt'))
+    serverFile = os.path.abspath(os.path.join(folderCurrent,
+                                 '../', 'server.cfg'))
+    serverExe = os.path.abspath(os.path.join(folderCurrent,
+                                '../', 'DedicatedServerCmd.exe'))
+    serverDir = os.path.abspath(os.path.join(folderCurrent, '../'))
+
+    iniPath = os.path.join(folderCurrent, 'configs', iniFile)
 
     if os.path.isfile(rotateCache):
         os.remove(rotateCache)
@@ -53,16 +81,15 @@ def replaceAll(iniFile, folderCurrent):
     else:    # Show an error #
         print("Error: %s file not found" % statsCache)
 
-    serverFile = os.path.abspath(os.path.join(folderCurrent,
-                                 '../', 'server.cfg'))
-    serverExe = os.path.abspath(os.path.join(folderCurrent,
-                                '../', 'DedicatedServerCmd.exe'))
-    serverDir = os.path.abspath(os.path.join(folderCurrent, '../'))
-
-    iniPath = os.path.join(folderCurrent, 'configs', iniFile)
-
     parser = ConfigParser()
     parser.read(iniPath)
+
+    ServerStart = parser.get('SETTINGS', 'ServerStart')
+    ServerName = parser.get('SETTINGS', 'ServerName')
+    Password = parser.get('SETTINGS', 'Password')
+    MaxGrid = parser.get('SETTINGS', 'MaxGrid')
+    ServerRestart = int(parser.get('SETTINGS', 'ServerRestart'))
+    PracticeServer = parser.get('SETTINGS', 'PracticeServer')
 
     Clear = int(parser.get('WEATHERCHANCE', 'Clear'))
     LightCloud = int(parser.get('WEATHERCHANCE', 'LightCloud'))
@@ -85,7 +112,7 @@ def replaceAll(iniFile, folderCurrent):
     ActivateWeather = parser.get('WEATHERCHANCE', 'ActivateWeather')
 
     AuthenticWeather = parser.get('WEATHERCHANCE', 'AuthenticWeather')
-    BugFree = parser.get('WEATHERCHANCE', 'BugFree')
+    Sunshine = parser.get('WEATHERCHANCE', 'Sunshine')
 
     PracticeSlots = parser.get('WEATHERSLOTS', 'Practice')
     QualifySlots = parser.get('WEATHERSLOTS', 'Qualify')
@@ -160,6 +187,25 @@ def replaceAll(iniFile, folderCurrent):
     Ghosting = parser.get('RACESETTINGS', 'Ghosting')
     GhostCollisions = parser.get('RACESETTINGS', 'GhostCollisions')
 
+    if ('PracticeServer' in StartParameter):
+        PracticeServer = "1"
+    if ('Sunshine' in StartParameter):
+        Sunshine = "1"
+
+    if (PracticeServer == "1"):
+        PracticeLenght = "1440"
+        QualifyLenght = "1440"
+        RaceLenght = "1L"
+        DateprogressP = "0x"
+        DateprogressQ = "0x"
+        DateprogressR = "0x"
+        WeatherprogressP = "Realtime"
+        WeatherprogressQ = "Realtime"
+        WeatherprogressR = "Realtime"
+        Password = ""
+        MandatoryPitStop = "0"
+        MinimumOnlineRank = ""
+
     if (CockpitView == "1"):
         CockpitView = "CockpitHelmet"
     else:
@@ -210,7 +256,6 @@ def replaceAll(iniFile, folderCurrent):
         Fuel = "STANDARD"
     else:
         Fuel = "OFF"
-
 
     if (Penalties == "1"):
         Penalties = "FULL"
@@ -285,7 +330,6 @@ def replaceAll(iniFile, folderCurrent):
     if (GhostCollisions == "1"):
         FlagList.append('ANTI_GRIEFING_COLLISIONS')
 
-
     if (Cooldownlap == "1"):
         FlagList.append('COOLDOWNLAP')
 
@@ -306,52 +350,43 @@ def replaceAll(iniFile, folderCurrent):
     FlagListString = ",".join(FlagList)
     RaceLenght = RaceLenght[:-1]
 
-
-
-    ServerStart = parser.get('SETTINGS', 'ServerStart')
-    ServerName = parser.get('SETTINGS', 'ServerName')
-    Password = parser.get('SETTINGS', 'Password')
-    MaxGrid = parser.get('SETTINGS', 'MaxGrid')
-
     if (MaxGrid == "max"):
-        tracksFile = open(tracksFile, "r")
-        for line in tracksFile:
-            if re.match('"' + Track + '" .*', line):
-                MaxGrid = re.compile(r'(\d+)$').search(line).group(1)
+        tracksFileReader = open(tracksFile, "r")
+        for line in tracksFileReader:
+            if re.match('"' + Track + '"', line):
+                GridMatch = re.compile(r'(\d+)$').search(line).group(1)
             else:
                 MaxGrid = "32"
-
-
-
-    ServerRestart = int(parser.get('SETTINGS', 'ServerRestart'))
+        MaxGrid = GridMatch
 
     WeatherList = (('Clear', Clear), ('LightCloud', LightCloud),
-                    ('MediumCloud', MediumCloud), ('HeavyCloud', HeavyCloud),
-                    ('Overcast', Overcast), ('LightRain', LightRain),
-                    ('Rain', Rain), ('Storm', Storm),
-                    ('ThunderStorm', ThunderStorm), ('snow', snow),
-                    ('heavysnow', heavysnow), ('blizzard', blizzard),
-                    ('Foggy', Foggy), ('FogWithRain', FogWithRain),
-                    ('HeavyFog', HeavyFog),
-                    ('HeavyFogWithRain', HeavyFogWithRain), ('Hazy', Hazy))
+                   ('MediumCloud', MediumCloud), ('HeavyCloud', HeavyCloud),
+                   ('Overcast', Overcast), ('LightRain', LightRain),
+                   ('Rain', Rain), ('Storm', Storm),
+                   ('ThunderStorm', ThunderStorm), ('snow', snow),
+                   ('heavysnow', heavysnow), ('blizzard', blizzard),
+                   ('Foggy', Foggy), ('FogWithRain', FogWithRain),
+                   ('HeavyFog', HeavyFog),
+                   ('HeavyFogWithRain', HeavyFogWithRain), ('Hazy', Hazy))
 
     weightedChoice = WeightedChoice(WeatherList)
+
     if (ActivateWeather == "1"):
-        if (BugFree == "1"):
-            Practice1 = "clear"
-            Practice2 = "clear"
-            Practice3 = "clear"
-            Practice4 = "clear"
+        if (Sunshine == "1"):
+            Practice1 = "Clear"
+            Practice2 = "Clear"
+            Practice3 = "Clear"
+            Practice4 = "Clear"
 
-            Qualify1 = "clear"
-            Qualify2 = "clear"
-            Qualify3 = "clear"
-            Qualify4 = "clear"
+            Qualify1 = "Clear"
+            Qualify2 = "Clear"
+            Qualify3 = "Clear"
+            Qualify4 = "Clear"
 
-            Race1 = "clear"
-            Race2 = "clear"
-            Race3 = "clear"
-            Race4 = "clear"
+            Race1 = "Clear"
+            Race2 = "Clear"
+            Race3 = "Clear"
+            Race4 = "Clear"
 
             PracticeSlots = "1"
             QualifySlots = "1"
@@ -391,224 +426,221 @@ def replaceAll(iniFile, folderCurrent):
                     Race1 = Qualify3
                 elif (QualifySlots == "4"):
                     Race1 = Qualify4
-            else:
-                print("AuthenticWeather deactivated")
 
         for line in fileinput.input(rotateFile, inplace=1):
             line = re.sub(r'"PracticeWeatherSlot1" : ".*"',
-                            '"PracticeWeatherSlot1" : "'
-                            + Practice1 + '"', line)
+                          '"PracticeWeatherSlot1" : "'
+                          + Practice1 + '"', line)
             line = re.sub(r'"PracticeWeatherSlot2" : ".*"',
-                            '"PracticeWeatherSlot2" : "'
-                            + Practice2 + '"', line)
+                          '"PracticeWeatherSlot2" : "'
+                          + Practice2 + '"', line)
             line = re.sub(r'"PracticeWeatherSlot3" : ".*"',
-                            '"PracticeWeatherSlot3" : "'
-                            + Practice3 + '"', line)
+                          '"PracticeWeatherSlot3" : "'
+                          + Practice3 + '"', line)
             line = re.sub(r'"PracticeWeatherSlot4" : ".*"',
-                            '"PracticeWeatherSlot4" : "'
-                            + Practice4 + '"', line)
+                          '"PracticeWeatherSlot4" : "'
+                          + Practice4 + '"', line)
             line = re.sub(r'"QualifyWeatherSlot1" : ".*"',
-                            '"QualifyWeatherSlot1" : "'
-                            + Qualify1 + '"', line)
+                          '"QualifyWeatherSlot1" : "'
+                          + Qualify1 + '"', line)
             line = re.sub(r'"QualifyWeatherSlot2" : ".*"',
-                            '"QualifyWeatherSlot2" : "'
-                            + Qualify2 + '"', line)
+                          '"QualifyWeatherSlot2" : "'
+                          + Qualify2 + '"', line)
             line = re.sub(r'"QualifyWeatherSlot3" : ".*"',
-                            '"QualifyWeatherSlot3" : "'
-                            + Qualify3 + '"', line)
+                          '"QualifyWeatherSlot3" : "'
+                          + Qualify3 + '"', line)
             line = re.sub(r'"QualifyWeatherSlot4" : ".*"',
-                            '"QualifyWeatherSlot4" : "'
-                            + Qualify4 + '"', line)
+                          '"QualifyWeatherSlot4" : "'
+                          + Qualify4 + '"', line)
 
             line = re.sub(r'"RaceWeatherSlot1" : ".*"',
-                            '"RaceWeatherSlot1" : "'
-                            + Race1 + '"', line)
+                          '"RaceWeatherSlot1" : "'
+                          + Race1 + '"', line)
             line = re.sub(r'"RaceWeatherSlot2" : ".*"',
-                            '"RaceWeatherSlot2" : "'
-                            + Race2 + '"', line)
+                          '"RaceWeatherSlot2" : "'
+                          + Race2 + '"', line)
             line = re.sub(r'"RaceWeatherSlot3" : ".*"',
-                            '"RaceWeatherSlot3" : "'
-                            + Race3 + '"', line)
+                          '"RaceWeatherSlot3" : "'
+                          + Race3 + '"', line)
             line = re.sub(r'"RaceWeatherSlot4" : ".*"',
-                            '"RaceWeatherSlot4" : "'
-                            + Race4 + '"', line)
-
+                          '"RaceWeatherSlot4" : "'
+                          + Race4 + '"', line)
 
             line = re.sub(r'"PracticeWeatherSlots" : .*,',
-                            '"PracticeWeatherSlots" : '
-                            + PracticeSlots + ',', line)
+                          '"PracticeWeatherSlots" : '
+                          + PracticeSlots + ',', line)
             line = re.sub(r'"QualifyWeatherSlots" : .*,',
-                            '"QualifyWeatherSlots" : '
-                            + QualifySlots + ',', line)
+                          '"QualifyWeatherSlots" : '
+                          + QualifySlots + ',', line)
             line = re.sub(r'"RaceWeatherSlots" : .*,',
-                            '"RaceWeatherSlots" : '
-                            + RaceSlots + ',', line)
+                          '"RaceWeatherSlots" : '
+                          + RaceSlots + ',', line)
 
             if(RaceSettings == '1'):
                 line = re.sub(r'"TrackId" : ".*"',
-                                '"TrackId" : "'
-                                + Track + '"', line)
+                              '"TrackId" : "'
+                              + Track + '"', line)
                 line = re.sub(r'"MultiClassSlots" : .*,',
-                                '"MultiClassSlots" : '
-                                + ClassSlots + ',', line)
+                              '"MultiClassSlots" : '
+                              + ClassSlots + ',', line)
                 line = re.sub(r'"VehicleClassId" : ".*"',
-                                '"VehicleClassId" : "'
-                                + Class1 + '"', line)
+                              '"VehicleClassId" : "'
+                              + Class1 + '"', line)
                 line = re.sub(r'"MultiClassSlot1" : ".*"',
-                                '"MultiClassSlot1" : "'
-                                + Class2 + '"', line)
+                              '"MultiClassSlot1" : "'
+                              + Class2 + '"', line)
                 line = re.sub(r'"MultiClassSlot2" : ".*"',
-                                '"MultiClassSlot2" : "'
-                                + Class3 + '"', line)
+                              '"MultiClassSlot2" : "'
+                              + Class3 + '"', line)
                 line = re.sub(r'"MultiClassSlot3" : ".*"',
-                                '"MultiClassSlot3" : "'
-                                + Class4 + '"', line)
+                              '"MultiClassSlot3" : "'
+                              + Class4 + '"', line)
 
                 line = re.sub(r'"RaceDateYear" : .*,',
-                                '"RaceDateYear" : '
-                                + Year + ',', line)
+                              '"RaceDateYear" : '
+                              + Year + ',', line)
                 line = re.sub(r'"RaceDateMonth" : .*,',
-                                '"RaceDateMonth" : '
-                                + Month + ',', line)
+                              '"RaceDateMonth" : '
+                              + Month + ',', line)
                 line = re.sub(r'"RaceDateDay" : .*,',
-                                '"RaceDateDay" : '
-                                + Day + ',', line)
+                              '"RaceDateDay" : '
+                              + Day + ',', line)
                 line = re.sub(r'"PracticeDateHour" : .*,',
-                                '"PracticeDateHour" : '
-                                + TimePractice + ',', line)
+                              '"PracticeDateHour" : '
+                              + TimePractice + ',', line)
                 line = re.sub(r'"QualifyDateHour" : .*,',
-                                '"QualifyDateHour" : '
-                                + TimeQuali + ',', line)
+                              '"QualifyDateHour" : '
+                              + TimeQuali + ',', line)
                 line = re.sub(r'"RaceDateHour" : .*,',
-                                '"RaceDateHour" : '
-                                + TimeRace + ',', line)
+                              '"RaceDateHour" : '
+                              + TimeRace + ',', line)
                 line = re.sub(r'"PracticeLength" : .*,',
-                                '"PracticeLength" : '
-                                + PracticeLenght + ',', line)
+                              '"PracticeLength" : '
+                              + PracticeLenght + ',', line)
                 line = re.sub(r'"QualifyLength" : .*,',
-                                '"QualifyLength" : '
-                                + QualifyLenght + ',', line)
+                              '"QualifyLength" : '
+                              + QualifyLenght + ',', line)
                 line = re.sub(r'"RaceLength" : .*,',
-                                '"RaceLength" : '
-                                + RaceLenght + ',', line)
+                              '"RaceLength" : '
+                              + RaceLenght + ',', line)
                 line = re.sub(r'"RaceMandatoryPitStops" : .*,',
-                                '"RaceMandatoryPitStops" : '
-                                + MandatoryPitStop + ',', line)
+                              '"RaceMandatoryPitStops" : '
+                              + MandatoryPitStop + ',', line)
 
                 line = re.sub(r'"PracticeDateProgression" : .*,',
-                                '"PracticeDateProgression" : '
-                                + DateprogressP + ',', line)
+                              '"PracticeDateProgression" : '
+                              + DateprogressP + ',', line)
                 line = re.sub(r'"QualifyDateProgression" : .*,',
-                                '"QualifyDateProgression" : '
-                                + DateprogressQ + ',', line)
+                              '"QualifyDateProgression" : '
+                              + DateprogressQ + ',', line)
                 line = re.sub(r'"RaceDateProgression" : .*,',
-                                '"RaceDateProgression" : '
-                                + DateprogressR + ',', line)
+                              '"RaceDateProgression" : '
+                              + DateprogressR + ',', line)
 
                 line = re.sub(r'"PracticeWeatherProgression" : .*,',
-                                '"PracticeWeatherProgression" : '
-                                + WeatherprogressP + ',', line)
+                              '"PracticeWeatherProgression" : '
+                              + WeatherprogressP + ',', line)
                 line = re.sub(r'"QualifyWeatherProgression" : .*,',
-                                '"QualifyWeatherProgression" : '
-                                + WeatherprogressQ + ',', line)
+                              '"QualifyWeatherProgression" : '
+                              + WeatherprogressQ + ',', line)
                 line = re.sub(r'"RaceWeatherProgression" : .*,',
-                                '"RaceWeatherProgression" : '
-                                + WeatherprogressR + ',', line)
+                              '"RaceWeatherProgression" : '
+                              + WeatherprogressR + ',', line)
 
                 line = re.sub(r'"RaceRollingStart" : .*,',
-                                '"RaceRollingStart" : '
-                                + Rollingstart + ',', line)
+                              '"RaceRollingStart" : '
+                              + Rollingstart + ',', line)
                 line = re.sub(r'"RaceFormationLap" : .*,',
-                                '"RaceFormationLap" : '
-                                + Formationlap + ',', line)
+                              '"RaceFormationLap" : '
+                              + Formationlap + ',', line)
 
                 line = re.sub(r'"MinimumOnlineRank" : ".*"',
-                                '"MinimumOnlineRank" : "'
-                                + OnlineRankSafety + '"', line)
+                              '"MinimumOnlineRank" : "'
+                              + OnlineRankSafety + '"', line)
                 line = re.sub(r'"MinimumOnlineStrength" : .*,',
-                                '"MinimumOnlineStrength" : '
-                                + OnlineRankSkill + ',', line)
+                              '"MinimumOnlineStrength" : '
+                              + OnlineRankSkill + ',', line)
 
                 line = re.sub(r'"PenaltiesType" : ".*"',
-                                '"PenaltiesType" : "'
-                                + Penalties + '"', line)
+                              '"PenaltiesType" : "'
+                              + Penalties + '"', line)
                 line = re.sub(r'"AllowablePenaltyTime" : .*,',
-                                '"AllowablePenaltyTime" : '
-                                + PenaltyMax + ',', line)
+                              '"AllowablePenaltyTime" : '
+                              + PenaltyMax + ',', line)
                 line = re.sub(r'"PitWhiteLinePenalty" : .*,',
-                                '"PitWhiteLinePenalty" : '
-                                + PenaltyCut + ',', line)
+                              '"PitWhiteLinePenalty" : '
+                              + PenaltyCut + ',', line)
                 line = re.sub(r'"DriveThroughPenalty" : .*,',
-                                '"DriveThroughPenalty" : '
-                                + PenaltyDT + ',', line)
+                              '"DriveThroughPenalty" : '
+                              + PenaltyDT + ',', line)
 
                 line = re.sub(r'"TireWearType" : ".*"',
-                                '"TireWearType" : "'
-                                + TireWear + '"', line)
+                              '"TireWearType" : "'
+                              + TireWear + '"', line)
                 line = re.sub(r'"DamageType" : ".*"',
-                                '"DamageType" : "'
-                                + Damage + '"', line)
+                              '"DamageType" : "'
+                              + Damage + '"', line)
                 line = re.sub(r'"FuelUsageType" : ".*"',
-                                '"FuelUsageType" : "'
-                                + Fuel + '"', line)
+                              '"FuelUsageType" : "'
+                              + Fuel + '"', line)
 
                 line = re.sub(r'"AllowedViews" : ".*"',
-                                '"AllowedViews" : "'
-                                + CockpitView + '"', line)
+                              '"AllowedViews" : "'
+                              + CockpitView + '"', line)
                 line = re.sub(r'"ManualPitStops" : .*,',
-                                '"ManualPitStops" : '
-                                + ManualPitStops + ',', line)
+                              '"ManualPitStops" : '
+                              + ManualPitStops + ',', line)
                 line = re.sub(r'"ManualRollingStarts" : .*,',
-                                '"ManualRollingStarts" : '
-                                + ManualRolling + ',', line)
-
-
+                              '"ManualRollingStarts" : '
+                              + ManualRolling + ',', line)
 
                 line = re.sub(r'"Flags" : ".*"',
-                                '"Flags" : "'
-                                + FlagListString + '"', line)
+                              '"Flags" : "'
+                              + FlagListString + '"', line)
 
             sys.stdout.write(line)
 
         for line in fileinput.input(serverFile, inplace=1):
             line = re.sub(r'name : ".*"',
-                            'name : "'
-                            + ServerName + '"', line)
+                          'name : "'
+                          + ServerName + '"', line)
             line = re.sub(r'password : ".*"',
-                            'password : "'
-                            + Password + '"', line)
+                          'password : "'
+                          + Password + '"', line)
             line = re.sub(r'"GridSize" : .*,',
-                            '"GridSize" : '
-                            + MaxGrid + ',', line)
+                          '"GridSize" : '
+                          + MaxGrid + ',', line)
             line = re.sub(r'"MaxPlayers" : .*,',
-                            '"MaxPlayers" : '
-                            + MaxGrid + ',', line)
+                          '"MaxPlayers" : '
+                          + MaxGrid + ',', line)
 
             sys.stdout.write(line)
 
     if (ServerStart == '1'):
-        startServer(serverExe, serverDir, ServerRestart)
+        startServer(serverExe,
+                    serverDir, ServerRestart, iniFile, StartParameter)
 
 
-def main(iniFile):
+def main(iniFile, StartParameter):
 
     if getattr(sys, 'frozen', False):
         folderCurrent = os.path.dirname(sys.executable)
     else:
         folderCurrent = os.path.abspath(os.path.dirname(__file__))
 
-    replaceAll(iniFile, folderCurrent)
+    replaceAll(iniFile, folderCurrent, StartParameter)
 
 
-def startServer(serverExe, serverDir, ServerRestart):
+def startServer(serverExe, serverDir, ServerRestart, iniFile, StartParameter):
 
     if (ServerRestart == 0):
         p = subprocess.Popen(serverExe, cwd=serverDir)
     else:
-        while True:
-            p = subprocess.Popen(serverExe, cwd=serverDir)
-            time.sleep(ServerRestart*60)
-            p.kill()
+        p = subprocess.Popen(serverExe, cwd=serverDir)
+        time.sleep(ServerRestart*60)
+        p.kill()
+        time.sleep(5)
+        main(iniFile, StartParameter)
 
 
 class WeightedChoice(object):
@@ -628,4 +660,4 @@ class WeightedChoice(object):
 
 
 if __name__ == "__main__":
-    main(iniFile)
+    main(iniFile, StartParameter)
