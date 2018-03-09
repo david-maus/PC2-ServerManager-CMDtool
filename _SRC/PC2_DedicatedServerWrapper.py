@@ -5,6 +5,7 @@ RandomWeatherForPC2DS 0.7 - by David Maus / www.gef-gaming.de.
 
 Randomize weather slots in dedicated server configuration for Project Cars 2.
 Info at www.gef-gaming.de.
+WARNING MESSY CODE! :)
 """
 
 
