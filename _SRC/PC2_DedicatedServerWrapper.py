@@ -79,6 +79,8 @@ def replaceAll(iniFile, folderCurrent):
     HeavyFogWithRain = int(parser.get('WEATHERCHANCE', 'HeavyFogWithRain'))
     Hazy = int(parser.get('WEATHERCHANCE', 'Hazy'))
 
+    ActivateWeather = parser.get('WEATHERCHANCE', 'ActivateWeather')
+
     AuthenticWeather = parser.get('WEATHERCHANCE', 'AuthenticWeather')
     BugFree = parser.get('WEATHERCHANCE', 'BugFree')
 
@@ -105,131 +107,131 @@ def replaceAll(iniFile, folderCurrent):
                     ('HeavyFogWithRain', HeavyFogWithRain), ('Hazy', Hazy))
 
     weightedChoice = WeightedChoice(WeatherList)
+    if (ActivateWeather == "1"):
+        if (BugFree == "1"):
+            Practice1 = "clear"
+            Practice2 = "clear"
+            Practice3 = "clear"
+            Practice4 = "clear"
 
-    if (BugFree == "1"):
-        Practice1 = "clear"
-        Practice2 = "clear"
-        Practice3 = "clear"
-        Practice4 = "clear"
+            Qualify1 = "clear"
+            Qualify2 = "clear"
+            Qualify3 = "clear"
+            Qualify4 = "clear"
 
-        Qualify1 = "clear"
-        Qualify2 = "clear"
-        Qualify3 = "clear"
-        Qualify4 = "clear"
+            Race1 = "clear"
+            Race2 = "clear"
+            Race3 = "clear"
+            Race4 = "clear"
 
-        Race1 = "clear"
-        Race2 = "clear"
-        Race3 = "clear"
-        Race4 = "clear"
-
-        PracticeSlots = "1"
-        QualifySlots = "1"
-        RaceSlots = "1"
-    else:
-        Practice1 = weightedChoice.next()
-        Practice2 = weightedChoice.next()
-        Practice3 = weightedChoice.next()
-        Practice4 = weightedChoice.next()
-
-        Qualify1 = weightedChoice.next()
-        Qualify2 = weightedChoice.next()
-        Qualify3 = weightedChoice.next()
-        Qualify4 = weightedChoice.next()
-
-        Race1 = weightedChoice.next()
-        Race2 = weightedChoice.next()
-        Race3 = weightedChoice.next()
-        Race4 = weightedChoice.next()
-
-        if (AuthenticWeather == "1"):
-
-            if (PracticeSlots == "1"):
-                Qualify1 = Practice1
-            elif (PracticeSlots == "2"):
-                Qualify1 = Practice2
-            elif (PracticeSlots == "3"):
-                Qualify1 = Practice3
-            elif (PracticeSlots == "4"):
-                Qualify1 = Practice4
-
-            if (QualifySlots == "1"):
-                Race1 = Qualify1
-            elif (QualifySlots == "2"):
-                Race1 = Qualify2
-            elif (QualifySlots == "3"):
-                Race1 = Qualify3
-            elif (QualifySlots == "4"):
-                Race1 = Qualify4
+            PracticeSlots = "1"
+            QualifySlots = "1"
+            RaceSlots = "1"
         else:
-            print("AuthenticWeather deactivated")
+            Practice1 = weightedChoice.next()
+            Practice2 = weightedChoice.next()
+            Practice3 = weightedChoice.next()
+            Practice4 = weightedChoice.next()
 
-    for line in fileinput.input(rotateFile, inplace=1):
-        line = re.sub(r'"PracticeWeatherSlot1" : ".*"',
-                        '"PracticeWeatherSlot1" : "'
-                        + Practice1 + '"', line)
-        line = re.sub(r'"PracticeWeatherSlot2" : ".*"',
-                        '"PracticeWeatherSlot2" : "'
-                        + Practice2 + '"', line)
-        line = re.sub(r'"PracticeWeatherSlot3" : ".*"',
-                        '"PracticeWeatherSlot3" : "'
-                        + Practice3 + '"', line)
-        line = re.sub(r'"PracticeWeatherSlot4" : ".*"',
-                        '"PracticeWeatherSlot4" : "'
-                        + Practice4 + '"', line)
-        line = re.sub(r'"QualifyWeatherSlot1" : ".*"',
-                        '"QualifyWeatherSlot1" : "'
-                        + Qualify1 + '"', line)
-        line = re.sub(r'"QualifyWeatherSlot2" : ".*"',
-                        '"QualifyWeatherSlot2" : "'
-                        + Qualify2 + '"', line)
-        line = re.sub(r'"QualifyWeatherSlot3" : ".*"',
-                        '"QualifyWeatherSlot3" : "'
-                        + Qualify3 + '"', line)
-        line = re.sub(r'"QualifyWeatherSlot4" : ".*"',
-                        '"QualifyWeatherSlot4" : "'
-                        + Qualify4 + '"', line)
+            Qualify1 = weightedChoice.next()
+            Qualify2 = weightedChoice.next()
+            Qualify3 = weightedChoice.next()
+            Qualify4 = weightedChoice.next()
 
-        line = re.sub(r'"RaceWeatherSlot1" : ".*"',
-                        '"RaceWeatherSlot1" : "'
-                        + Race1 + '"', line)
-        line = re.sub(r'"RaceWeatherSlot2" : ".*"',
-                        '"RaceWeatherSlot2" : "'
-                        + Race2 + '"', line)
-        line = re.sub(r'"RaceWeatherSlot3" : ".*"',
-                        '"RaceWeatherSlot3" : "'
-                        + Race3 + '"', line)
-        line = re.sub(r'"RaceWeatherSlot4" : ".*"',
-                        '"RaceWeatherSlot4" : "'
-                        + Race4 + '"', line)
+            Race1 = weightedChoice.next()
+            Race2 = weightedChoice.next()
+            Race3 = weightedChoice.next()
+            Race4 = weightedChoice.next()
+
+            if (AuthenticWeather == "1"):
+
+                if (PracticeSlots == "1"):
+                    Qualify1 = Practice1
+                elif (PracticeSlots == "2"):
+                    Qualify1 = Practice2
+                elif (PracticeSlots == "3"):
+                    Qualify1 = Practice3
+                elif (PracticeSlots == "4"):
+                    Qualify1 = Practice4
+
+                if (QualifySlots == "1"):
+                    Race1 = Qualify1
+                elif (QualifySlots == "2"):
+                    Race1 = Qualify2
+                elif (QualifySlots == "3"):
+                    Race1 = Qualify3
+                elif (QualifySlots == "4"):
+                    Race1 = Qualify4
+            else:
+                print("AuthenticWeather deactivated")
+
+        for line in fileinput.input(rotateFile, inplace=1):
+            line = re.sub(r'"PracticeWeatherSlot1" : ".*"',
+                            '"PracticeWeatherSlot1" : "'
+                            + Practice1 + '"', line)
+            line = re.sub(r'"PracticeWeatherSlot2" : ".*"',
+                            '"PracticeWeatherSlot2" : "'
+                            + Practice2 + '"', line)
+            line = re.sub(r'"PracticeWeatherSlot3" : ".*"',
+                            '"PracticeWeatherSlot3" : "'
+                            + Practice3 + '"', line)
+            line = re.sub(r'"PracticeWeatherSlot4" : ".*"',
+                            '"PracticeWeatherSlot4" : "'
+                            + Practice4 + '"', line)
+            line = re.sub(r'"QualifyWeatherSlot1" : ".*"',
+                            '"QualifyWeatherSlot1" : "'
+                            + Qualify1 + '"', line)
+            line = re.sub(r'"QualifyWeatherSlot2" : ".*"',
+                            '"QualifyWeatherSlot2" : "'
+                            + Qualify2 + '"', line)
+            line = re.sub(r'"QualifyWeatherSlot3" : ".*"',
+                            '"QualifyWeatherSlot3" : "'
+                            + Qualify3 + '"', line)
+            line = re.sub(r'"QualifyWeatherSlot4" : ".*"',
+                            '"QualifyWeatherSlot4" : "'
+                            + Qualify4 + '"', line)
+
+            line = re.sub(r'"RaceWeatherSlot1" : ".*"',
+                            '"RaceWeatherSlot1" : "'
+                            + Race1 + '"', line)
+            line = re.sub(r'"RaceWeatherSlot2" : ".*"',
+                            '"RaceWeatherSlot2" : "'
+                            + Race2 + '"', line)
+            line = re.sub(r'"RaceWeatherSlot3" : ".*"',
+                            '"RaceWeatherSlot3" : "'
+                            + Race3 + '"', line)
+            line = re.sub(r'"RaceWeatherSlot4" : ".*"',
+                            '"RaceWeatherSlot4" : "'
+                            + Race4 + '"', line)
 
 
-        line = re.sub(r'"PracticeWeatherSlots" :.*',
-                        '"PracticeWeatherSlots" : '
-                        + PracticeSlots + ',', line)
-        line = re.sub(r'"QualifyWeatherSlots" :.*',
-                        '"QualifyWeatherSlots" : '
-                        + QualifySlots + ',', line)
-        line = re.sub(r'"RaceWeatherSlots" :.*',
-                        '"RaceWeatherSlots" : '
-                        + RaceSlots + ',', line)
+            line = re.sub(r'"PracticeWeatherSlots" :.*',
+                            '"PracticeWeatherSlots" : '
+                            + PracticeSlots + ',', line)
+            line = re.sub(r'"QualifyWeatherSlots" :.*',
+                            '"QualifyWeatherSlots" : '
+                            + QualifySlots + ',', line)
+            line = re.sub(r'"RaceWeatherSlots" :.*',
+                            '"RaceWeatherSlots" : '
+                            + RaceSlots + ',', line)
 
-        sys.stdout.write(line)
+            sys.stdout.write(line)
 
-    for line in fileinput.input(serverFile, inplace=1):
-        line = re.sub(r'name : ".*"',
-                        'name : "'
-                        + ServerName + '"', line)
-        line = re.sub(r'password : ".*"',
-                        'password : "'
-                        + Password + '"', line)
-        line = re.sub(r'"GridSize" : .*,',
-                        '"GridSize" : '
-                        + MaxGrid + ',', line)
-        line = re.sub(r'"MaxPlayers" : .*,',
-                        '"MaxPlayers" : '
-                        + MaxGrid + ',', line)
+        for line in fileinput.input(serverFile, inplace=1):
+            line = re.sub(r'name : ".*"',
+                            'name : "'
+                            + ServerName + '"', line)
+            line = re.sub(r'password : ".*"',
+                            'password : "'
+                            + Password + '"', line)
+            line = re.sub(r'"GridSize" : .*,',
+                            '"GridSize" : '
+                            + MaxGrid + ',', line)
+            line = re.sub(r'"MaxPlayers" : .*,',
+                            '"MaxPlayers" : '
+                            + MaxGrid + ',', line)
 
-        sys.stdout.write(line)
+            sys.stdout.write(line)
 
     if(RaceSettings == '1'):
         print('RaceSettings deactivated. Loading the rotate file without change.')
