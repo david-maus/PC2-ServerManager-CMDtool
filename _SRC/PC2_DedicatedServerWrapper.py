@@ -15,11 +15,13 @@ WARNING MESSY CODE! :)
 import fileinput
 import os
 import sys
+import stat
 import re
 import random
 import bisect
 import subprocess
 import time
+import shutil
 from configparser import ConfigParser
 
 
@@ -71,6 +73,8 @@ def replaceAll(iniFile, folderCurrent, StartParameter):
 
     iniPath = os.path.join(folderCurrent, 'configs', iniFile)
 
+    incPath = os.path.join(folderCurrent, 'inc')
+
     if os.path.isfile(rotateCache):
         os.remove(rotateCache)
     else:    # Show an error #
@@ -80,6 +84,8 @@ def replaceAll(iniFile, folderCurrent, StartParameter):
         os.remove(statsCache)
     else:    # Show an error #
         print("Error: %s file not found" % statsCache)
+
+    copyDirTree(incPath, serverDir)
 
     parser = ConfigParser()
     parser.read(iniPath)
@@ -657,6 +663,30 @@ class WeightedChoice(object):
         rnd = random.random() * self.totals[-1]
         i = bisect.bisect_right(self.totals, rnd)
         return self.weights[i][0]
+
+
+def copyDirTree(root_src_dir, root_dst_dir):
+    """
+    Copy directory tree. Overwrites also read only files.
+
+    :param root_src_dir: source directory
+    :param root_dst_dir:  destination directory
+    """
+    for src_dir, dirs, files in os.walk(root_src_dir):
+        dst_dir = src_dir.replace(root_src_dir, root_dst_dir, 1)
+        if not os.path.exists(dst_dir):
+            os.makedirs(dst_dir)
+        for file_ in files:
+            src_file = os.path.join(src_dir, file_)
+            dst_file = os.path.join(dst_dir, file_)
+            if os.path.exists(dst_file):
+                try:
+                    os.remove(dst_file)
+                except PermissionError as exc:
+                    os.chmod(dst_file, stat.S_IWUSR)
+                    os.remove(dst_file)
+
+            shutil.copy(src_file, dst_dir)
 
 
 if __name__ == "__main__":

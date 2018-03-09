@@ -1,0 +1,17 @@
+// Config version
+version : 1
+
+// Default configuration
+config : {
+
+	"motd" : "",
+
+	"send_setup" : [
+		"controls",
+		"format",
+		"weather",
+		"date"
+	],
+
+	"send_when_returning_to_lobby" : true,
+}
