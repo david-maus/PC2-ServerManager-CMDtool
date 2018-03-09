@@ -1,0 +1,88 @@
+// Config version.
+version : 7
+
+// Default configuration.
+config : {
+
+	"persist_index" : true,
+
+
+	"default" : {
+
+		"VehicleClassId" : "Touring Car",
+        "MultiClassSlots" : 3,
+		"MultiClassSlot1" : "GTE",
+		"MultiClassSlot2" : "GT3",
+		"MultiClassSlot3" : "GT4",
+
+		//"VehicleModelId" : "Opel Astra TCR",
+		//"TrackId" : "DO NOT ENABLE ME",
+
+        "Flags" : "ONLINE_REPUTATION_ENABLED,COOLDOWNLAP,ALLOW_CUSTOM_VEHICLE_SETUP,AUTO_START_ENGINE,MECHANICAL_FAILURES,DISABLE_DRIVING_LINE,FORCE_REALISTIC_DRIVING_AIDS,WAIT_FOR_RACE_READY_INPUT,PIT_SPEED_LIMITER,GHOST_GRIEFERS,ANTI_GRIEFING_COLLISIONS",
+
+		"DamageType" : "FULL",
+		"TireWearType" : "STANDARD",
+		"FuelUsageType" : "STANDARD",
+
+		"PenaltiesType" : "FULL",
+		"AllowablePenaltyTime" : 5,
+		"PitWhiteLinePenalty" : 1,
+		"DriveThroughPenalty" : 1,
+
+		"AllowedViews" : "Any",
+		"ManualPitStops" : 0,
+		"ManualRollingStarts" : 0,
+		"MinimumOnlineRank" : "F",
+		"MinimumOnlineStrength" : 1000,
+		"RaceRollingStart" : 0,
+		"RaceFormationLap" : 0,
+		"RaceMandatoryPitStops" : 0,
+
+        "PracticeLength" : 0,
+		"QualifyLength" : 10,
+		"RaceLength" : 10,
+
+		"RaceDateYear" : 2017,
+		"RaceDateMonth" : 3,
+		"RaceDateDay" : 27,
+        "PracticeDateHour" : 6,
+		"QualifyDateHour" : 8,
+		"RaceDateHour" : 14,
+
+        "PracticeDateProgression" : 25,
+		"PracticeWeatherProgression" : 0,
+
+        "QualifyDateProgression" : 25,
+		"QualifyWeatherProgression" : 0,
+
+		"RaceDateProgression" : 25,
+		"RaceWeatherProgression" : 0,
+
+
+		"PracticeWeatherSlots" : 4,
+		"PracticeWeatherSlot1" : "Clear",
+		"PracticeWeatherSlot2" : "Clear",
+		"PracticeWeatherSlot3" : "Clear",
+		"PracticeWeatherSlot4" : "Clear",
+
+		"QualifyWeatherSlots" : 4,
+		"QualifyWeatherSlot1" : "Clear",
+		"QualifyWeatherSlot2" : "Clear",
+		"QualifyWeatherSlot3" : "Clear",
+		"QualifyWeatherSlot4" : "Clear",
+
+		"RaceWeatherSlots" : 4,
+		"RaceWeatherSlot1" : "Clear",
+		"RaceWeatherSlot2" : "Clear",
+		"RaceWeatherSlot3" : "Clear",
+		"RaceWeatherSlot4" : "Clear",
+	},
+
+	"rotation" : [
+
+		{
+			"TrackId" : "Donington Park National",
+
+		}
+	]
+}
