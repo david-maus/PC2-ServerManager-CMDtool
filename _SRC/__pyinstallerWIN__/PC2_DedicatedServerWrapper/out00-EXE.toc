@@ -1,4 +1,4 @@
-('../PC2_DedicatedServerWrapper.exe',
+('../bin/win/PC2_DedicatedServerWrapper.exe',
  False,
  False,
  False,
@@ -51,7 +51,7 @@
  [],
  False,
  False,
- 1520638450,
+ 1520644183,
  [('runw.exe',
    'c:\\python362\\lib\\site-packages\\PyInstaller\\bootloader\\Windows-32bit\\runw.exe',
    'EXECUTABLE')])

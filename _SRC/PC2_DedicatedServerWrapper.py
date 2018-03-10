@@ -56,7 +56,7 @@ elif os.path.basename(sys.argv[0]).endswith('.py'):
 
 
 def replaceAll(iniFile, folderCurrent, StartParameter):
-
+    """Get the condifg settings and start of the replace function."""
     rotateFile = os.path.abspath(os.path.join(folderCurrent, '../',
                                  'lua_Config', 'sms_rotate_config.json'))
     rotateCache = os.path.abspath(os.path.join(folderCurrent, '../',
@@ -628,17 +628,20 @@ def replaceAll(iniFile, folderCurrent, StartParameter):
 
 
 def main(iniFile, StartParameter):
-
+    """Start the main function."""
     if getattr(sys, 'frozen', False):
         folderCurrent = os.path.dirname(sys.executable)
+        folderCurrent = os.path.abspath(os.path.join(folderCurrent,
+                                        '../', '../'))
     else:
         folderCurrent = os.path.abspath(os.path.dirname(__file__))
+        folderCurrent = os.path.abspath(os.path.join(folderCurrent, '../'))
 
     replaceAll(iniFile, folderCurrent, StartParameter)
 
 
 def startServer(serverExe, serverDir, ServerRestart, iniFile, StartParameter):
-
+    """Start of the server."""
     if (ServerRestart == 0):
         p = subprocess.Popen(serverExe, cwd=serverDir)
     else:
@@ -650,7 +653,10 @@ def startServer(serverExe, serverDir, ServerRestart, iniFile, StartParameter):
 
 
 class WeightedChoice(object):
+    """Randomweather Choice class."""
+
     def __init__(self, weights):
+        """Initialise."""
         self.totals = []
         self.weights = weights
         running_total = 0
@@ -660,6 +666,7 @@ class WeightedChoice(object):
             self.totals.append(running_total)
 
     def next(self):
+        """Give weightened random values."""
         rnd = random.random() * self.totals[-1]
         i = bisect.bisect_right(self.totals, rnd)
         return self.weights[i][0]
