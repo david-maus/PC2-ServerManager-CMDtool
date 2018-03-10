@@ -161,11 +161,11 @@ Useful if the server is bugging with changing weather. Its the case at the momen
 
 ### You can pass these parameters to the wrapper to override some settings without alter your ini files:
 
-`PC2DedicatedServerWrapper.exe CUP_R01_Zolder.ini PractiveServer`
+`PC2DedicatedServerWrapper.exe CUP_R01_Zolder.ini PracticeServer`
 
 `PC2DedicatedServerWrapper.exe CUP_R01_Zolder.ini Sunshine`
 
-`PC2DedicatedServerWrapper.exe CUP_R01_Zolder.ini PractiveServer:Sunshine`
+`PC2DedicatedServerWrapper.exe CUP_R01_Zolder.ini PracticeServer:Sunshine`
 
 **Syntax**
 
@@ -194,11 +194,11 @@ If you execute it, all your ini files in the configs folder are getting a proper
 ### Example on Windows
 `CUP_R01_Zolder.bat`
 
-`CUP_R01_Zolder-PractiveServer.bat`
+`CUP_R01_Zolder-Practice.bat`
 
-`CUP_R01_Zolder-Sunshine.bat`
+`CUP_R01_Zolder-Sun.bat`
 
-`CUP_R01_Zolder-PractiveServer:Sunshine.bat`
+`CUP_R01_Zolder-PracticeSun.bat`
 
 You can then simply start the right .bat file to start the server with the correct .ini file
 
