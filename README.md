@@ -211,6 +211,7 @@ You can then simply start the right .bat file to start the server with the corre
 
 - **BACKUP YOUR DEDICATED SERVER FILES if you dont want to loose configs etc.! Im not responsible for maybe a dataloss or something! The tool is only tested by me at the moment. Please use it carefully!**
 - There are very little errorchecks, so if you make something wrong there is maybe no errormessage or something
+- Dont delete or rename the basic.ini
 - Of course it can happen that some things dont work. Please report it and i will fix it.
 - Simple motd config in ini coming soon
 - You must place  the tool/folder in the right position like in the tutorial. If you dont make it correct it cant be started and can maybe cause errors or bugs
