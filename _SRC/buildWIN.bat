@@ -3,7 +3,8 @@ pyinstaller ^
 --distpath ../bin/win/ ^
 --workpath ./__pyinstallerWIN__ ^
 --specpath ./__specsWIN__ ^
---name "PC2_DedicatedServerWrapper" ^
+--name "PC2DedicatedServerWrapper" ^
+--icon "icons/main.ico" ^
 --upx-dir C:\_PORTABLE\PROGRAMS\UPX ^
 --noupx ^
 --noconsole ^
@@ -17,7 +18,8 @@ pyinstaller ^
 --distpath ../bin/win/ ^
 --workpath ./__pyinstallerWIN__ ^
 --specpath ./__specsWIN__ ^
---name "make_startscripts" ^
+--name "GenerateStartscripts" ^
+--icon "icons/scripts.ico" ^
 --upx-dir C:\_PORTABLE\PROGRAMS\UPX ^
 --noupx ^
 --noconsole ^

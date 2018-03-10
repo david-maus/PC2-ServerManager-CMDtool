@@ -2,7 +2,7 @@
  False,
  False,
  False,
- None,
+ 'icons\\main.ico',
  None,
  False,
  False,
@@ -51,7 +51,7 @@
  [],
  False,
  False,
- 1520644183,
+ 1520690309,
  [('runw.exe',
    'c:\\python362\\lib\\site-packages\\PyInstaller\\bootloader\\Windows-32bit\\runw.exe',
    'EXECUTABLE')])

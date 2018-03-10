@@ -12,7 +12,6 @@ WARNING MESSY CODE! :)
 """
 
 
-import fileinput
 import glob
 import os
 import sys
@@ -25,9 +24,13 @@ def replaceAll(folderCurrent):
     scriptsFolder = os.path.abspath(os.path.join(folderCurrent,
                                                  'startscripts'))
 
+    os.chdir(scriptsFolder)
+    for file in glob.glob("*.bat"):
+        os.remove(file)
+
     os.chdir(configFolder)
     for file in glob.glob("*.ini"):
-        if 'basic' in file:
+        if 'basic.ini' in file:
             pass
         else:
             scriptName = file.replace('.ini', '')
@@ -38,7 +41,8 @@ def replaceAll(folderCurrent):
             scriptFileSun = os.path.abspath(os.path.join(scriptsFolder,
                                             scriptName + '-Sun.bat'))
             scriptFilePR_Sun = os.path.abspath(os.path.join(scriptsFolder,
-                                               scriptName + '-PracticeSun.bat'))
+                                               scriptName +
+                                               '-PracticeSun.bat'))
 
             scriptWriter = open(scriptFile, "w")
             scriptWriter.write('cd ../\n')
@@ -47,17 +51,20 @@ def replaceAll(folderCurrent):
 
             scriptWriter = open(scriptFilePR, "w")
             scriptWriter.write('cd ../\n')
-            scriptWriter.write('PC2_DedicatedServerWrapper.exe ' + file + ' PracticeServer')
+            scriptWriter.write('PC2_DedicatedServerWrapper.exe ' + file +
+                               ' PracticeServer')
             scriptWriter.close()
 
             scriptWriter = open(scriptFileSun, "w")
             scriptWriter.write('cd ../\n')
-            scriptWriter.write('PC2_DedicatedServerWrapper.exe ' + file + ' Sunshine')
+            scriptWriter.write('PC2_DedicatedServerWrapper.exe ' + file +
+                               ' Sunshine')
             scriptWriter.close()
 
             scriptWriter = open(scriptFilePR_Sun, "w")
             scriptWriter.write('cd ../\n')
-            scriptWriter.write('PC2_DedicatedServerWrapper.exe ' + file + ' PracticeServer:Sunshine')
+            scriptWriter.write('PC2_DedicatedServerWrapper.exe ' + file +
+                               ' PracticeServer:Sunshine')
             scriptWriter.close()
 
 
