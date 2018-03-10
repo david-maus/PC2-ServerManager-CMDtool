@@ -1,6 +1,7 @@
 # **Project Cars 2 Dedicated Server Wrapper**
+[GEF-GAMING.DE](http://www.gef-gaming.de)
 ---
-![alt text](https://i.imgur.com/mXEaDDj.png)
+![alt text](https://i.imgur.com/SefJeD7.png)
 ## **Server starter / Weather randomizer / Configurable per .ini**
 **Just install the dedicated server, get the wrapper, make your inis and start the server**
 
