@@ -46,24 +46,24 @@ def replaceAll(folderCurrent):
 
             scriptWriter = open(scriptFile, "w")
             scriptWriter.write('cd ../\n')
-            scriptWriter.write('PC2_DedicatedServerWrapper.exe ' + file)
+            scriptWriter.write('PC2DedicatedServerWrapper.exe ' + file)
             scriptWriter.close()
 
             scriptWriter = open(scriptFilePR, "w")
             scriptWriter.write('cd ../\n')
-            scriptWriter.write('PC2_DedicatedServerWrapper.exe ' + file +
+            scriptWriter.write('PC2DedicatedServerWrapper.exe ' + file +
                                ' PracticeServer')
             scriptWriter.close()
 
             scriptWriter = open(scriptFileSun, "w")
             scriptWriter.write('cd ../\n')
-            scriptWriter.write('PC2_DedicatedServerWrapper.exe ' + file +
+            scriptWriter.write('PC2DedicatedServerWrapper.exe ' + file +
                                ' Sunshine')
             scriptWriter.close()
 
             scriptWriter = open(scriptFilePR_Sun, "w")
             scriptWriter.write('cd ../\n')
-            scriptWriter.write('PC2_DedicatedServerWrapper.exe ' + file +
+            scriptWriter.write('PC2DedicatedServerWrapper.exe ' + file +
                                ' PracticeServer:Sunshine')
             scriptWriter.close()
 
