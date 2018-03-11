@@ -88,7 +88,7 @@ def replaceAll(iniFile, folderCurrent, StartParameter):
     copyDirTree(incPath, serverDir)
 
     parser = ConfigParser()
-    parser.read(iniPath)
+    parser.read(iniPath, encoding='utf8')
 
     ServerStart = parser.get('SETTINGS', 'ServerStart')
     ServerName = parser.get('SETTINGS', 'ServerName')
@@ -210,6 +210,7 @@ def replaceAll(iniFile, folderCurrent, StartParameter):
 
     if (ClassSlots == 0):
         ClassAll = "1"
+        ClassSlots = str(ClassSlots)
     elif (ClassSlots > 0):
         ClassSlots -= 1
         ClassSlots = str(ClassSlots)
@@ -379,12 +380,16 @@ def replaceAll(iniFile, folderCurrent, StartParameter):
     RaceLenght = RaceLenght[:-1]
 
     if (MaxGrid == "max"):
-        tracksFileReader = open(tracksFile, "r")
-        for line in tracksFileReader:
-            if re.match('"' + Track + '"', line):
-                GridMatch = re.compile(r'(\d+)$').search(line).group(1)
-            else:
-                MaxGrid = "32"
+        with open(tracksFile, "r", encoding='utf8') as tracksFileReader:
+            for line in tracksFileReader:
+                if re.match('"' + Track + '"', line):
+                    GridMatch = re.compile(r'(\d+)$',
+                                           re.ASCII).search(line).group(1)
+
+        try:
+            GridMatch
+        except NameError:
+            GridMatch = "32"
         MaxGrid = GridMatch
 
     WeatherList = (('Clear', Clear), ('LightCloud', LightCloud),
@@ -454,230 +459,238 @@ def replaceAll(iniFile, folderCurrent, StartParameter):
                     Race1 = Qualify3
                 elif (QualifySlots == "4"):
                     Race1 = Qualify4
+        with open(rotateFile, "r", encoding='utf8') as rotateFileIO:
+            lines = rotateFileIO.readlines()
+        with open(rotateFile, "w+", encoding='utf8') as rotateFileIO:
+            for line in lines:
+                line = re.sub(r'"PracticeWeatherSlot1" : ".*"',
+                              '"PracticeWeatherSlot1" : "'
+                              + Practice1 + '"', line)
+                line = re.sub(r'"PracticeWeatherSlot2" : ".*"',
+                              '"PracticeWeatherSlot2" : "'
+                              + Practice2 + '"', line)
+                line = re.sub(r'"PracticeWeatherSlot3" : ".*"',
+                              '"PracticeWeatherSlot3" : "'
+                              + Practice3 + '"', line)
+                line = re.sub(r'"PracticeWeatherSlot4" : ".*"',
+                              '"PracticeWeatherSlot4" : "'
+                              + Practice4 + '"', line)
+                line = re.sub(r'"QualifyWeatherSlot1" : ".*"',
+                              '"QualifyWeatherSlot1" : "'
+                              + Qualify1 + '"', line)
+                line = re.sub(r'"QualifyWeatherSlot2" : ".*"',
+                              '"QualifyWeatherSlot2" : "'
+                              + Qualify2 + '"', line)
+                line = re.sub(r'"QualifyWeatherSlot3" : ".*"',
+                              '"QualifyWeatherSlot3" : "'
+                              + Qualify3 + '"', line)
+                line = re.sub(r'"QualifyWeatherSlot4" : ".*"',
+                              '"QualifyWeatherSlot4" : "'
+                              + Qualify4 + '"', line)
 
-        for line in fileinput.input(rotateFile, inplace=1):
-            line = re.sub(r'"PracticeWeatherSlot1" : ".*"',
-                          '"PracticeWeatherSlot1" : "'
-                          + Practice1 + '"', line)
-            line = re.sub(r'"PracticeWeatherSlot2" : ".*"',
-                          '"PracticeWeatherSlot2" : "'
-                          + Practice2 + '"', line)
-            line = re.sub(r'"PracticeWeatherSlot3" : ".*"',
-                          '"PracticeWeatherSlot3" : "'
-                          + Practice3 + '"', line)
-            line = re.sub(r'"PracticeWeatherSlot4" : ".*"',
-                          '"PracticeWeatherSlot4" : "'
-                          + Practice4 + '"', line)
-            line = re.sub(r'"QualifyWeatherSlot1" : ".*"',
-                          '"QualifyWeatherSlot1" : "'
-                          + Qualify1 + '"', line)
-            line = re.sub(r'"QualifyWeatherSlot2" : ".*"',
-                          '"QualifyWeatherSlot2" : "'
-                          + Qualify2 + '"', line)
-            line = re.sub(r'"QualifyWeatherSlot3" : ".*"',
-                          '"QualifyWeatherSlot3" : "'
-                          + Qualify3 + '"', line)
-            line = re.sub(r'"QualifyWeatherSlot4" : ".*"',
-                          '"QualifyWeatherSlot4" : "'
-                          + Qualify4 + '"', line)
+                line = re.sub(r'"RaceWeatherSlot1" : ".*"',
+                              '"RaceWeatherSlot1" : "'
+                              + Race1 + '"', line)
+                line = re.sub(r'"RaceWeatherSlot2" : ".*"',
+                              '"RaceWeatherSlot2" : "'
+                              + Race2 + '"', line)
+                line = re.sub(r'"RaceWeatherSlot3" : ".*"',
+                              '"RaceWeatherSlot3" : "'
+                              + Race3 + '"', line)
+                line = re.sub(r'"RaceWeatherSlot4" : ".*"',
+                              '"RaceWeatherSlot4" : "'
+                              + Race4 + '"', line)
 
-            line = re.sub(r'"RaceWeatherSlot1" : ".*"',
-                          '"RaceWeatherSlot1" : "'
-                          + Race1 + '"', line)
-            line = re.sub(r'"RaceWeatherSlot2" : ".*"',
-                          '"RaceWeatherSlot2" : "'
-                          + Race2 + '"', line)
-            line = re.sub(r'"RaceWeatherSlot3" : ".*"',
-                          '"RaceWeatherSlot3" : "'
-                          + Race3 + '"', line)
-            line = re.sub(r'"RaceWeatherSlot4" : ".*"',
-                          '"RaceWeatherSlot4" : "'
-                          + Race4 + '"', line)
+                line = re.sub(r'"PracticeWeatherSlots" : .*,',
+                              '"PracticeWeatherSlots" : '
+                              + PracticeSlots + ',', line)
+                line = re.sub(r'"QualifyWeatherSlots" : .*,',
+                              '"QualifyWeatherSlots" : '
+                              + QualifySlots + ',', line)
+                line = re.sub(r'"RaceWeatherSlots" : .*,',
+                              '"RaceWeatherSlots" : '
+                              + RaceSlots + ',', line)
+                rotateFileIO.write(line)
 
-            line = re.sub(r'"PracticeWeatherSlots" : .*,',
-                          '"PracticeWeatherSlots" : '
-                          + PracticeSlots + ',', line)
-            line = re.sub(r'"QualifyWeatherSlots" : .*,',
-                          '"QualifyWeatherSlots" : '
-                          + QualifySlots + ',', line)
-            line = re.sub(r'"RaceWeatherSlots" : .*,',
-                          '"RaceWeatherSlots" : '
-                          + RaceSlots + ',', line)
-            sys.stdout.write(line)
+    with open(rotateFile, "r", encoding='utf8') as rotateFileIO:
+        lines = rotateFileIO.readlines()
+    with open(rotateFile, "w+", encoding='utf8') as rotateFileIO:
+        for line in lines:
+            if(RaceSettings == '1'):
+                line = re.sub(r'"TrackId" : ".*"',
+                              '"TrackId" : "'
+                              + Track + '"', line)
+                line = re.sub(r'"MultiClassSlots" : .*,',
+                              '"MultiClassSlots" : '
+                              + ClassSlots + ',', line)
+                if (ClassAll == "1"):
+                    line = re.sub(r'.*"VehicleClassId" : ".*"',
+                                  '//"VehicleClassId" : "'
+                                  + Class1 + '"', line)
+                else:
+                    line = re.sub(r'.*"VehicleClassId" : ".*"',
+                                  '\t\t"VehicleClassId" : "'
+                                  + Class1 + '"', line)
 
-    for line in fileinput.input(rotateFile, inplace=1):
-        if(RaceSettings == '1'):
-            line = re.sub(r'"TrackId" : ".*"',
-                          '"TrackId" : "'
-                          + Track + '"', line)
-            line = re.sub(r'"MultiClassSlots" : .*,',
-                          '"MultiClassSlots" : '
-                          + ClassSlots + ',', line)
+                line = re.sub(r'"MultiClassSlot1" : ".*"',
+                              '"MultiClassSlot1" : "'
+                              + Class2 + '"', line)
+                line = re.sub(r'"MultiClassSlot2" : ".*"',
+                              '"MultiClassSlot2" : "'
+                              + Class3 + '"', line)
+                line = re.sub(r'"MultiClassSlot3" : ".*"',
+                              '"MultiClassSlot3" : "'
+                              + Class4 + '"', line)
+
+                line = re.sub(r'"RaceDateYear" : .*,',
+                              '"RaceDateYear" : '
+                              + Year + ',', line)
+                line = re.sub(r'"RaceDateMonth" : .*,',
+                              '"RaceDateMonth" : '
+                              + Month + ',', line)
+                line = re.sub(r'"RaceDateDay" : .*,',
+                              '"RaceDateDay" : '
+                              + Day + ',', line)
+                line = re.sub(r'"PracticeDateHour" : .*,',
+                              '"PracticeDateHour" : '
+                              + TimePractice + ',', line)
+                line = re.sub(r'"QualifyDateHour" : .*,',
+                              '"QualifyDateHour" : '
+                              + TimeQuali + ',', line)
+                line = re.sub(r'"RaceDateHour" : .*,',
+                              '"RaceDateHour" : '
+                              + TimeRace + ',', line)
+                line = re.sub(r'"PracticeLength" : .*,',
+                              '"PracticeLength" : '
+                              + PracticeLenght + ',', line)
+                line = re.sub(r'"QualifyLength" : .*,',
+                              '"QualifyLength" : '
+                              + QualifyLenght + ',', line)
+                line = re.sub(r'"RaceLength" : .*,',
+                              '"RaceLength" : '
+                              + RaceLenght + ',', line)
+                line = re.sub(r'"RaceMandatoryPitStops" : .*,',
+                              '"RaceMandatoryPitStops" : '
+                              + MandatoryPitStop + ',', line)
+
+                line = re.sub(r'"PracticeDateProgression" : .*,',
+                              '"PracticeDateProgression" : '
+                              + DateprogressP + ',', line)
+                line = re.sub(r'"QualifyDateProgression" : .*,',
+                              '"QualifyDateProgression" : '
+                              + DateprogressQ + ',', line)
+                line = re.sub(r'"RaceDateProgression" : .*,',
+                              '"RaceDateProgression" : '
+                              + DateprogressR + ',', line)
+
+                line = re.sub(r'"PracticeWeatherProgression" : .*,',
+                              '"PracticeWeatherProgression" : '
+                              + WeatherprogressP + ',', line)
+                line = re.sub(r'"QualifyWeatherProgression" : .*,',
+                              '"QualifyWeatherProgression" : '
+                              + WeatherprogressQ + ',', line)
+                line = re.sub(r'"RaceWeatherProgression" : .*,',
+                              '"RaceWeatherProgression" : '
+                              + WeatherprogressR + ',', line)
+
+                line = re.sub(r'"RaceRollingStart" : .*,',
+                              '"RaceRollingStart" : '
+                              + Rollingstart + ',', line)
+                line = re.sub(r'"RaceFormationLap" : .*,',
+                              '"RaceFormationLap" : '
+                              + Formationlap + ',', line)
+
+                line = re.sub(r'"MinimumOnlineRank" : ".*"',
+                              '"MinimumOnlineRank" : "'
+                              + OnlineRankSafety + '"', line)
+                line = re.sub(r'"MinimumOnlineStrength" : .*,',
+                              '"MinimumOnlineStrength" : '
+                              + OnlineRankSkill + ',', line)
+
+                line = re.sub(r'"PenaltiesType" : ".*"',
+                              '"PenaltiesType" : "'
+                              + Penalties + '"', line)
+                line = re.sub(r'"AllowablePenaltyTime" : .*,',
+                              '"AllowablePenaltyTime" : '
+                              + PenaltyMax + ',', line)
+                line = re.sub(r'"PitWhiteLinePenalty" : .*,',
+                              '"PitWhiteLinePenalty" : '
+                              + PenaltyCut + ',', line)
+                line = re.sub(r'"DriveThroughPenalty" : .*,',
+                              '"DriveThroughPenalty" : '
+                              + PenaltyDT + ',', line)
+
+                line = re.sub(r'"TireWearType" : ".*"',
+                              '"TireWearType" : "'
+                              + TireWear + '"', line)
+                line = re.sub(r'"DamageType" : ".*"',
+                              '"DamageType" : "'
+                              + Damage + '"', line)
+                line = re.sub(r'"FuelUsageType" : ".*"',
+                              '"FuelUsageType" : "'
+                              + Fuel + '"', line)
+
+                line = re.sub(r'"AllowedViews" : ".*"',
+                              '"AllowedViews" : "'
+                              + CockpitView + '"', line)
+                line = re.sub(r'"ManualPitStops" : .*,',
+                              '"ManualPitStops" : '
+                              + ManualPitStops + ',', line)
+                line = re.sub(r'"ManualRollingStarts" : .*,',
+                              '"ManualRollingStarts" : '
+                              + ManualRolling + ',', line)
+
+                line = re.sub(r'"Flags" : ".*"',
+                              '"Flags" : "'
+                              + FlagListString + '"', line)
+
+                rotateFileIO.write(line)
+
+    with open(serverFile, "r", encoding='utf8') as serverFileIO:
+        lines = serverFileIO.readlines()
+    with open(serverFile, "w+", encoding='utf8') as serverFileIO:
+        for line in lines:
+            line = re.sub(r'name : ".*"',
+                          'name : "'
+                          + ServerName + '"', line)
+            line = re.sub(r'password : ".*"',
+                          'password : "'
+                          + Password + '"', line)
+            line = re.sub(r'"GridSize" : .*,',
+                          '"GridSize" : '
+                          + MaxGrid + ',', line)
+            line = re.sub(r'"MaxPlayers" : .*,',
+                          '"MaxPlayers" : '
+                          + MaxGrid + ',', line)
             if (ClassAll == "1"):
-                line = re.sub(r'.*"VehicleClassId" : ".*"',
-                              '//"VehicleClassId" : "'
-                              + Class1 + '"', line)
+                line = re.sub(r'"ServerControlsVehicleClass" : .*,',
+                              '"ServerControlsVehicleClass" : '
+                              + '0' + ',', line)
             else:
-                line = re.sub(r'.*"VehicleClassId" : ".*"',
-                              '\t\t"VehicleClassId" : "'
-                              + Class1 + '"', line)
+                line = re.sub(r'"ServerControlsVehicleClass" : .*,',
+                              '"ServerControlsVehicleClass" : '
+                              + '1' + ',', line)
 
-            line = re.sub(r'"MultiClassSlot1" : ".*"',
-                          '"MultiClassSlot1" : "'
-                          + Class2 + '"', line)
-            line = re.sub(r'"MultiClassSlot2" : ".*"',
-                          '"MultiClassSlot2" : "'
-                          + Class3 + '"', line)
-            line = re.sub(r'"MultiClassSlot3" : ".*"',
-                          '"MultiClassSlot3" : "'
-                          + Class4 + '"', line)
+            line = re.sub(r'hostPort : .*',
+                          'hostPort : '
+                          + hostPort, line)
+            line = re.sub(r'queryPort : .*',
+                          'queryPort : '
+                          + queryPort, line)
+            line = re.sub(r'sleepWaiting : .*',
+                          'sleepWaiting : '
+                          + sleepWaiting, line)
+            line = re.sub(r'sleepActive : .*',
+                          'sleepActive : '
+                          + sleepActive, line)
+            line = re.sub(r'enableHttpApi : .*',
+                          'enableHttpApi : '
+                          + enableHttpApi, line)
+            line = re.sub(r'controlGameSetup : .*',
+                          'controlGameSetup : '
+                          + selectDS, line)
 
-            line = re.sub(r'"RaceDateYear" : .*,',
-                          '"RaceDateYear" : '
-                          + Year + ',', line)
-            line = re.sub(r'"RaceDateMonth" : .*,',
-                          '"RaceDateMonth" : '
-                          + Month + ',', line)
-            line = re.sub(r'"RaceDateDay" : .*,',
-                          '"RaceDateDay" : '
-                          + Day + ',', line)
-            line = re.sub(r'"PracticeDateHour" : .*,',
-                          '"PracticeDateHour" : '
-                          + TimePractice + ',', line)
-            line = re.sub(r'"QualifyDateHour" : .*,',
-                          '"QualifyDateHour" : '
-                          + TimeQuali + ',', line)
-            line = re.sub(r'"RaceDateHour" : .*,',
-                          '"RaceDateHour" : '
-                          + TimeRace + ',', line)
-            line = re.sub(r'"PracticeLength" : .*,',
-                          '"PracticeLength" : '
-                          + PracticeLenght + ',', line)
-            line = re.sub(r'"QualifyLength" : .*,',
-                          '"QualifyLength" : '
-                          + QualifyLenght + ',', line)
-            line = re.sub(r'"RaceLength" : .*,',
-                          '"RaceLength" : '
-                          + RaceLenght + ',', line)
-            line = re.sub(r'"RaceMandatoryPitStops" : .*,',
-                          '"RaceMandatoryPitStops" : '
-                          + MandatoryPitStop + ',', line)
-
-            line = re.sub(r'"PracticeDateProgression" : .*,',
-                          '"PracticeDateProgression" : '
-                          + DateprogressP + ',', line)
-            line = re.sub(r'"QualifyDateProgression" : .*,',
-                          '"QualifyDateProgression" : '
-                          + DateprogressQ + ',', line)
-            line = re.sub(r'"RaceDateProgression" : .*,',
-                          '"RaceDateProgression" : '
-                          + DateprogressR + ',', line)
-
-            line = re.sub(r'"PracticeWeatherProgression" : .*,',
-                          '"PracticeWeatherProgression" : '
-                          + WeatherprogressP + ',', line)
-            line = re.sub(r'"QualifyWeatherProgression" : .*,',
-                          '"QualifyWeatherProgression" : '
-                          + WeatherprogressQ + ',', line)
-            line = re.sub(r'"RaceWeatherProgression" : .*,',
-                          '"RaceWeatherProgression" : '
-                          + WeatherprogressR + ',', line)
-
-            line = re.sub(r'"RaceRollingStart" : .*,',
-                          '"RaceRollingStart" : '
-                          + Rollingstart + ',', line)
-            line = re.sub(r'"RaceFormationLap" : .*,',
-                          '"RaceFormationLap" : '
-                          + Formationlap + ',', line)
-
-            line = re.sub(r'"MinimumOnlineRank" : ".*"',
-                          '"MinimumOnlineRank" : "'
-                          + OnlineRankSafety + '"', line)
-            line = re.sub(r'"MinimumOnlineStrength" : .*,',
-                          '"MinimumOnlineStrength" : '
-                          + OnlineRankSkill + ',', line)
-
-            line = re.sub(r'"PenaltiesType" : ".*"',
-                          '"PenaltiesType" : "'
-                          + Penalties + '"', line)
-            line = re.sub(r'"AllowablePenaltyTime" : .*,',
-                          '"AllowablePenaltyTime" : '
-                          + PenaltyMax + ',', line)
-            line = re.sub(r'"PitWhiteLinePenalty" : .*,',
-                          '"PitWhiteLinePenalty" : '
-                          + PenaltyCut + ',', line)
-            line = re.sub(r'"DriveThroughPenalty" : .*,',
-                          '"DriveThroughPenalty" : '
-                          + PenaltyDT + ',', line)
-
-            line = re.sub(r'"TireWearType" : ".*"',
-                          '"TireWearType" : "'
-                          + TireWear + '"', line)
-            line = re.sub(r'"DamageType" : ".*"',
-                          '"DamageType" : "'
-                          + Damage + '"', line)
-            line = re.sub(r'"FuelUsageType" : ".*"',
-                          '"FuelUsageType" : "'
-                          + Fuel + '"', line)
-
-            line = re.sub(r'"AllowedViews" : ".*"',
-                          '"AllowedViews" : "'
-                          + CockpitView + '"', line)
-            line = re.sub(r'"ManualPitStops" : .*,',
-                          '"ManualPitStops" : '
-                          + ManualPitStops + ',', line)
-            line = re.sub(r'"ManualRollingStarts" : .*,',
-                          '"ManualRollingStarts" : '
-                          + ManualRolling + ',', line)
-
-            line = re.sub(r'"Flags" : ".*"',
-                          '"Flags" : "'
-                          + FlagListString + '"', line)
-
-        sys.stdout.write(line)
-
-    for line in fileinput.input(serverFile, inplace=1):
-        line = re.sub(r'name : ".*"',
-                      'name : "'
-                      + ServerName + '"', line)
-        line = re.sub(r'password : ".*"',
-                      'password : "'
-                      + Password + '"', line)
-        line = re.sub(r'"GridSize" : .*,',
-                      '"GridSize" : '
-                      + MaxGrid + ',', line)
-        line = re.sub(r'"MaxPlayers" : .*,',
-                      '"MaxPlayers" : '
-                      + MaxGrid + ',', line)
-        if (ClassAll == "1"):
-            line = re.sub(r'"ServerControlsVehicleClass" : .*,',
-                          '"ServerControlsVehicleClass" : '
-                          + '0' + ',', line)
-        else:
-            line = re.sub(r'"ServerControlsVehicleClass" : .*,',
-                          '"ServerControlsVehicleClass" : '
-                          + '1' + ',', line)
-
-        line = re.sub(r'"hostPort" : .*',
-                      '"hostPort" : '
-                      + hostPort, line)
-        line = re.sub(r'"queryPort" : .*',
-                      '"queryPort" : '
-                      + queryPort, line)
-        line = re.sub(r'"sleepWaiting" : .*',
-                      '"sleepWaiting" : '
-                      + sleepWaiting, line)
-        line = re.sub(r'"sleepActive" : .*',
-                      '"sleepActive" : '
-                      + sleepActive, line)
-        line = re.sub(r'"enableHttpApi" : .*',
-                      '"enableHttpApi" : '
-                      + enableHttpApi, line)
-        line = re.sub(r'"controlGameSetup" : .*',
-                      '"controlGameSetup" : '
-                      + selectDS, line)
-
-        sys.stdout.write(line)
+            serverFileIO.write(line)
 
     if (ServerStart == '1'):
         startServer(serverExe,
