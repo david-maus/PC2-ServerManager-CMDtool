@@ -25,34 +25,19 @@ import shutil
 from configparser import ConfigParser
 
 
-if os.path.basename(sys.argv[0]).endswith('.exe'):
-    if sys.argv[1:]:
-        if ('.ini' in sys.argv[1]):
-            iniFile = sys.argv[1]
-            if sys.argv[2:]:
-                StartParameter = sys.argv[2]
-            else:
-                StartParameter = ""
+if sys.argv[1:]:
+    if ('.ini' in sys.argv[1]):
+        iniFile = sys.argv[1]
+        if sys.argv[2:]:
+            StartParameter = sys.argv[2]
         else:
-            iniFile = 'basic.ini'
-            StartParameter = sys.argv[1]
+            StartParameter = ""
     else:
         iniFile = 'basic.ini'
-        StartParameter = ""
-elif os.path.basename(sys.argv[0]).endswith('.py'):
-    if sys.argv[1:]:
-        if ('.ini' in sys.argv[1]):
-            iniFile = sys.argv[1]
-            if sys.argv[2:]:
-                StartParameter = sys.argv[2]
-            else:
-                StartParameter = ""
-        else:
-            iniFile = 'basic.ini'
-            StartParameter = sys.argv[1]
-    else:
-        iniFile = 'basic.ini'
-        StartParameter = ""
+        StartParameter = sys.argv[1]
+else:
+    iniFile = 'basic.ini'
+    StartParameter = ""
 
 
 def replaceAll(iniFile, folderCurrent, StartParameter):
