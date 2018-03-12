@@ -58,9 +58,9 @@ elif os.path.basename(sys.argv[0]).endswith('.py'):
 def replaceAll(iniFile, folderCurrent, StartParameter):
     """Get the condifg settings and start of the replace function."""
     rotateFile = os.path.abspath(os.path.join(folderCurrent, '../',
-                                 'lua_Config', 'sms_rotate_config.json'))
+                                 'lua_config', 'sms_rotate_config.json'))
     rotateCache = os.path.abspath(os.path.join(folderCurrent, '../',
-                                  'lua_Config', 'sms_rotate_data.json'))
+                                  'lua_config', 'sms_rotate_data.json'))
     statsCache = os.path.abspath(os.path.join(folderCurrent, '../',
                                  'lua_config', 'sms_stats_data.json'))
     tracksFile = os.path.abspath(os.path.join(folderCurrent,
