@@ -1,8 +1,8 @@
 pyinstaller ^
 -F ^
---distpath ../bin/win/ ^
---workpath ./__pyinstallerWIN__ ^
---specpath ./__specsWIN__ ^
+--distpath ../bin/lnx/ ^
+--workpath ./__pyinstallerLNX__ ^
+--specpath ./__specsLNX__ ^
 --name "PC2_DedicatedServerWrapper" ^
 --upx-dir C:\_PORTABLE\PROGRAMS\UPX ^
 --noupx ^

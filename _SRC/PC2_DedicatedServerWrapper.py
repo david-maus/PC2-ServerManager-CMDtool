@@ -67,8 +67,12 @@ def replaceAll(iniFile, folderCurrent, StartParameter):
                                  'help', 'tracks.txt'))
     serverFile = os.path.abspath(os.path.join(folderCurrent,
                                  '../', 'server.cfg'))
-    serverExe = os.path.abspath(os.path.join(folderCurrent,
-                                '../', 'DedicatedServerCmd.exe'))
+    if sys.platform == "linux" or sys.platform == "linux2":
+        serverExe = os.path.abspath(os.path.join(folderCurrent,
+                                    '../', 'DedicatedServerCmd.elf'))
+    elif sys.platform == "win32":
+        serverExe = os.path.abspath(os.path.join(folderCurrent,
+                                    '../', 'DedicatedServerCmd.exe'))
     serverDir = os.path.abspath(os.path.join(folderCurrent, '../'))
 
     iniPath = os.path.join(folderCurrent, 'configs', iniFile)
