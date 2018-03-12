@@ -3,7 +3,7 @@
 block_cipher = None
 
 
-a = Analysis(['..\\GUI.py'],
+a = Analysis(['../GUI.py'],
              pathex=['./__specsWIN__'],
              binaries=[],
              datas=[ ('../ui', 'ui' ) ],
