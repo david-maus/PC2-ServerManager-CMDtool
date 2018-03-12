@@ -62,7 +62,7 @@ def replaceAll(iniFile, folderCurrent, StartParameter):
     rotateCache = os.path.abspath(os.path.join(folderCurrent, '../',
                                   'lua_Config', 'sms_rotate_data.json'))
     statsCache = os.path.abspath(os.path.join(folderCurrent, '../',
-                                 'lua_Config', 'sms_stats_data.json'))
+                                 'lua_config', 'sms_stats_data.json'))
     tracksFile = os.path.abspath(os.path.join(folderCurrent,
                                  'help', 'tracks.txt'))
     serverFile = os.path.abspath(os.path.join(folderCurrent,
