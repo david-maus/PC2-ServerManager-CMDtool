@@ -1,2 +1,2 @@
 cd ../
-PC2DedicatedServerWrapper.exe TRACKDAY_NS.ini Sunshine
+DedicatedServerWrapper.exe TRACKDAY_NS.ini Sunshine

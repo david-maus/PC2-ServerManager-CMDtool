@@ -1,0 +1,47 @@
+import atexit
+
+def exit_handler():
+    # suche und beende prozesse
+
+atexit.register(exit_handler)
+
+
+########################################################
+
+
+
+# find process
+ps -A | grep DedicatedServer
+
+# find directory from process
+pwdx 12136
+
+# kills process
+kill 12136
+
+
+########################################################
+
+# find process
+output = subprocess.check_output('tasklist /v /fo csv | findstr /i "DedicatedServer"', shell=True)
+
+
+# find directory from process
+output = subprocess.check_output('wmic process where "ProcessID=2392" get ExecutablePath', shell=True)
+
+
+
+# kills process
+taskkill /F /IM 2392
+
+
+
+
+
+
+
+
+
+import subprocess
+for line in subprocess.check_output(['tasklist /v /fo csv | findstr /i "chrome"']).split('\n'):
+    print(line)

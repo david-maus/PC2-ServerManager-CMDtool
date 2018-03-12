@@ -1,2 +1,2 @@
 cd ../
-PC2DedicatedServerWrapper.exe TRACKDAY_NS.ini PracticeServer
+DedicatedServerWrapper.exe TRACKDAY_NS.ini PracticeServer
