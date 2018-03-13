@@ -1,0 +1,8 @@
+_RELEASE/*
+bin/win/*
+bin/lnx/*
+_SRC/_pyinstaller/
+_SRC/__pycache__/
+./DedicatedServerWrapperGUI*
+*/.DS_Store
+!*.gitkeep

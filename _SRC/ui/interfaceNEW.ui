@@ -25,7 +25,7 @@
   <property name="font">
    <font>
     <family>MS Shell Dlg 2</family>
-    <pointsize>6</pointsize>
+    <pointsize>7</pointsize>
     <weight>50</weight>
     <italic>false</italic>
     <bold>false</bold>
@@ -35,7 +35,7 @@
    <string>Dialog</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">font: 6pt &quot;MS Shell Dlg 2&quot;;</string>
+   <string notr="true">font: 7pt &quot;MS Shell Dlg 2&quot;;</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <property name="leftMargin">
@@ -134,7 +134,7 @@
            <x>0</x>
            <y>0</y>
            <width>405</width>
-           <height>1640</height>
+           <height>1653</height>
           </rect>
          </property>
          <property name="maximumSize">

@@ -97,8 +97,8 @@ class QDarkPalette(QPalette):
 
     def set_app(self, app):
         """Set the Fusion theme and this palette to a `QApplication`."""
-        #app.setStyle("Fusion")
-        #app.setPalette(self)
+        app.setStyle("Fusion")
+        app.setPalette(self)
         self.set_stylesheet(app)
 
 
