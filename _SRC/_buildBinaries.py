@@ -10,9 +10,8 @@ Info at www.gef-gaming.de.
 
 WARNING MESSY CODE! :)
 """
-
 import os
-import sys
+import sys; sys.dont_write_bytecode = True
 import glob
 import subprocess
 

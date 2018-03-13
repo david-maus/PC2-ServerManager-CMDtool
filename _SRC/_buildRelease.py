@@ -7,10 +7,9 @@ by David Maus/neslane at www.gef-gaming.de
 
 """
 
-
-import glob
 import os
-import sys
+import sys; sys.dont_write_bytecode = True
+import glob
 import re
 
 
@@ -59,7 +58,7 @@ def replaceAll(folderCurrent):
                                               fileReleaseName))
 
     os.chdir(folder7zip)
-    os.system('7za.exe a -t7z "' + fileRelase + '" "' + folderRoot + '" -xr!_SRC -xr!.git -xr!_RELEASE -xr!DedicatedServerWrapperGUI.exe')
+    os.system('7za.exe a -t7z "' + fileRelase + '" "' + folderRoot + '" -xr!_SRC -xr!.git* -xr!_RELEASE -xr!DedicatedServerWrapperGUI.exe')
 
 
 def main():

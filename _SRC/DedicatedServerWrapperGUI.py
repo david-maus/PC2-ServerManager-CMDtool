@@ -11,10 +11,10 @@ Info at www.gef-gaming.de.
 WARNING MESSY CODE! :)
 """
 import os
+import sys; sys.dont_write_bytecode = True
 os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
 from PyQt5 import uic, QtCore, QtWidgets
 from PyQt5.QtGui import QPalette, QColor, QFont
-import sys
 import glob
 from ui import resources
 

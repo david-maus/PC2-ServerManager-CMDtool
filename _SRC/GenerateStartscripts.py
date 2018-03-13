@@ -12,9 +12,9 @@ WARNING MESSY CODE! :)
 """
 
 
-import glob
 import os
-import sys
+import sys; sys.dont_write_bytecode = True
+import glob
 import pathlib
 import stat
 
