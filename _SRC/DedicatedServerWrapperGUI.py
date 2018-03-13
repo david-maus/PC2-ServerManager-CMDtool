@@ -11,18 +11,13 @@ Info at www.gef-gaming.de.
 WARNING MESSY CODE! :)
 """
 import os
-# os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "2"
+os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
 from PyQt5 import uic, QtCore, QtWidgets
-from PyQt5.QtGui import QPalette, QColor
+from PyQt5.QtGui import QPalette, QColor, QFont
 import sys
 import glob
 from ui import resources
 
-# if hasattr(QtCore.Qt, 'AA_EnableHighDpiScaling'):
-#     QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
-#
-# if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
-#     QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
 
 def resource_path(relative_path):
     """Get Absolute Path."""
@@ -102,8 +97,8 @@ class QDarkPalette(QPalette):
 
     def set_app(self, app):
         """Set the Fusion theme and this palette to a `QApplication`."""
-        app.setStyle("Fusion")
-        app.setPalette(self)
+        #app.setStyle("Fusion")
+        #app.setPalette(self)
         self.set_stylesheet(app)
 
 
@@ -151,8 +146,10 @@ class Ui(QtWidgets.QDialog):
 def main():
     """Start Main Function."""
     app = QtWidgets.QApplication(sys.argv)
+    # font = QFont()
+    # font.setPointSize(7)
+    # app.setFont(font)
     QDarkPalette().set_app(app)
-
     window = Start()
     window.setWindowTitle(
         'Project Cars 2 Dedicated Server wrapper 1.1 - by GEF-GAMING.DE')
@@ -161,6 +158,6 @@ def main():
 
 
 if __name__ == '__main__':
-    uiFilePath = resource_path("ui/interface.ui")
+    uiFilePath = resource_path("ui/interfaceNEW.ui")
     uiLoginFilePath = resource_path("ui/interfaceLogin.ui")
     main()

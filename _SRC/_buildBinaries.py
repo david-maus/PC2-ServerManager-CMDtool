@@ -83,7 +83,7 @@ def build(sourceFile, programName, binDest, icon, uiPath, upx, console, confirm,
         p.wait()
 
     p = subprocess.Popen('pyinstaller -F --distpath ' + distPath + ' --workpath ' + workPath + ' --specpath ' + specPath + ' --name "' + programName + '" --icon "' + icon + '" --upx-dir ' + upxDir + upx + confirm + console + ' --clean ' + sourceFile, shell=True)
-    p.communicate()
+    p.wait()
 
 
 if __name__ == "__main__":

@@ -26,8 +26,8 @@
    'C:\\_GAMES\\Steam\\steamapps\\common\\Project CARS 2 - Dedicated '
    'Server\\gef-gaming.de_pc2-ds-wrapper\\_SRC\\GenerateStartscripts.py',
    'PYSOURCE'),
-  ('python36.dll', 'c:\\python362\\python36.dll', 'BINARY'),
   ('VCRUNTIME140.dll', 'c:\\python362\\VCRUNTIME140.dll', 'BINARY'),
+  ('python36.dll', 'c:\\python362\\python36.dll', 'BINARY'),
   ('_ssl', 'c:\\python362\\DLLs\\_ssl.pyd', 'EXTENSION'),
   ('unicodedata', 'c:\\python362\\DLLs\\unicodedata.pyd', 'EXTENSION'),
   ('pyexpat', 'c:\\python362\\DLLs\\pyexpat.pyd', 'EXTENSION'),

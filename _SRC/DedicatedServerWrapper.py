@@ -21,6 +21,7 @@ import bisect
 import subprocess
 import time
 import shutil
+import atexit
 from configparser import ConfigParser
 
 
@@ -88,13 +89,42 @@ def killServerWin():
                 processDir = processDir.replace('\DedicatedServerCmd.exe', '')
                 processDir = processDir.strip()
                 if (processDir == serverDir):
-                    p = subprocess.Popen('taskkill /F /IM ' + processPID, close_fds=True)
+                    p = subprocess.Popen('taskkill /F /IM ' + processPID, shell=True)
                     print('gekillt')
                 else:
                     print('nicht gekillt')
 
     except subprocess.CalledProcessError:
         pass
+
+
+def killServerLNX():
+    """Kill the server on Linux."""
+    ServerName = 'DedicatedServer'
+
+    try:
+        for line in subprocess.check_output('ps -A | grep ' + ServerName, shell=True, encoding='utf8').split('\n'):
+            if (line == ""):
+                pass
+            else:
+                processPID = re.search(r'\d+', line).group()
+                processDir = subprocess.check_output('pwdx ' + processPID, shell=True, encoding='utf8')
+                processDir = processDir.replace(processPID + ': ', '')
+                processDir = processDir.strip()
+                if (processDir == serverDir):
+                    p = subprocess.Popen('kill ' + processPID, shell=True)
+                    print('gekillt')
+                else:
+                    print('nicht gekillt')
+
+    except subprocess.CalledProcessError:
+        pass
+
+
+if sys.platform == "linux" or sys.platform == "linux2":
+    atexit.register(killServerLNX)
+elif sys.platform == "win32":
+    atexit.register(killServerWin)
 
 
 def replaceAll():
@@ -728,13 +758,10 @@ def main():
 def startServer(ServerRestart):
     """Start of the server."""
     if (ServerRestart == 0):
-        p = subprocess.Popen(serverExe, cwd=serverDir, close_fds=True)
-        if sys.platform == "linux" or sys.platform == "linux2":
-            pass
-        elif sys.platform == "win32":
-            pass
+        p = subprocess.Popen(serverExe, cwd=serverDir, shell=True)
+        p.wait()
     else:
-        p = subprocess.Popen(serverExe, cwd=serverDir, close_fds=True)
+        p = subprocess.Popen(serverExe, cwd=serverDir, shell=True)
         time.sleep(ServerRestart*60)
         p.kill()
         time.sleep(5)
@@ -787,7 +814,7 @@ def copyDirTree(root_src_dir, root_dst_dir):
 
 if __name__ == "__main__":
     if sys.platform == "linux" or sys.platform == "linux2":
-        pass
+        killServerLNX()
     elif sys.platform == "win32":
         killServerWin()
 

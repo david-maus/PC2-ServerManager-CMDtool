@@ -93,33 +93,33 @@ def replaceAll(folderCurrent, osPref):
                 scriptWriter = open(scriptFile, "w")
                 scriptWriter.write('#!/bin/bash\n')
                 scriptWriter.write('cd ../\n')
-                scriptWriter.write('DedicatedServerWrapper ' + file)
+                scriptWriter.write('./DedicatedServerWrapper ' + file)
                 scriptWriter.close()
                 os.chmod(scriptFile, stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
 
                 scriptWriter = open(scriptFilePR, "w")
                 scriptWriter.write('#!/bin/bash\n')
                 scriptWriter.write('cd ../\n')
-                scriptWriter.write('DedicatedServerWrapper ' + file +
+                scriptWriter.write('./DedicatedServerWrapper ' + file +
                                    ' PracticeServer')
                 scriptWriter.close()
-                os.chmod(scriptFile, stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
+                os.chmod(scriptFilePR, stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
 
                 scriptWriter = open(scriptFileSun, "w")
                 scriptWriter.write('#!/bin/bash\n')
                 scriptWriter.write('cd ../\n')
-                scriptWriter.write('DedicatedServerWrapper ' + file +
+                scriptWriter.write('./DedicatedServerWrapper ' + file +
                                    ' Sunshine')
                 scriptWriter.close()
-                os.chmod(scriptFile, stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
+                os.chmod(scriptFileSun, stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
 
                 scriptWriter = open(scriptFilePR_Sun, "w")
                 scriptWriter.write('#!/bin/bash\n')
                 scriptWriter.write('cd ../\n')
-                scriptWriter.write('DedicatedServerWrapper ' + file +
+                scriptWriter.write('./DedicatedServerWrapper ' + file +
                                    ' PracticeServer:Sunshine')
                 scriptWriter.close()
-                os.chmod(scriptFile, stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
+                os.chmod(scriptFilePR_Sun, stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
 
 
 def main():
