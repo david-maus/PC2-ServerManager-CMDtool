@@ -1,9 +1,6 @@
 _RELEASE/*.zip
-bin/win/*
-bin/lnx/*
 _SRC/_pyinstaller/
 _SRC/__pycache__/
 _SRC/ui/__pycache__/
-DedicatedServerWrapperGUI*
 */.DS_Store
 !*.gitkeep
