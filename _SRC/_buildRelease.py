@@ -58,7 +58,7 @@ def replaceAll(folderCurrent):
                                               fileReleaseName))
 
     os.chdir(folder7zip)
-    os.system('7za.exe a -t7z "' + fileRelase + '" "' + folderRoot + '" -xr!_SRC -xr!.git* -xr!_RELEASE -xr!DedicatedServerWrapperGUI.exe')
+    os.system('7za.exe a -t7z "' + fileRelase + '" "' + folderRoot + '" -xr!_SRC -xr!.git* -xr!_RELEASE -xr!DedicatedServerWrapperGUI*')
 
 
 def main():
