@@ -121,10 +121,10 @@ def killServerLNX():
         pass
 
 
-if sys.platform == "linux" or sys.platform == "linux2":
-    atexit.register(killServerLNX)
-elif sys.platform == "win32":
-    atexit.register(killServerWin)
+# if sys.platform == "linux" or sys.platform == "linux2":
+#     atexit.register(killServerLNX)
+# elif sys.platform == "win32":
+#     atexit.register(killServerWin)
 
 
 def replaceAll():
@@ -813,9 +813,9 @@ def copyDirTree(root_src_dir, root_dst_dir):
 
 
 if __name__ == "__main__":
-    if sys.platform == "linux" or sys.platform == "linux2":
-        killServerLNX()
-    elif sys.platform == "win32":
-        killServerWin()
+    # if sys.platform == "linux" or sys.platform == "linux2":
+    #     killServerLNX()
+    # elif sys.platform == "win32":
+    #     killServerWin()
 
     main()
